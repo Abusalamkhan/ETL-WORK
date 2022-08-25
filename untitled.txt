@@ -1,0 +1,78 @@
+#car_status_report
+
+sheet= client.open_by_key(car_status_report)
+ws= sheet.worksheet('Cars')
+data = ws.get_all_values()
+headers = data.pop(0)
+dfm = pd.DataFrame(data,columns=headers)
+dfs=dfm.loc[dfm['Type'].isin(['Revenue Share'])]
+car_status_df=dfs.iloc[:,[1,0,4]]
+car_status_df.rename({'Current DM':'Fleet_Lead'},axis=1,inplace=True)
+car_status_df
+
+#aatmanirbhar3
+
+sheet= client.open_by_key(aatmanirbhar3)
+ws= sheet.worksheet('Fleet_Mapping')
+data = ws.get_all_values()
+headers = data.pop(0)
+dfm = pd.DataFrame(data,columns=headers)
+aatmanirbhar_3_df=dfm.iloc[:,[0,1]]
+aatmanirbhar_3_df.rename({'License plate':'car_number'},axis=1,inplace=True)
+aatmanirbhar_3_df
+
+#fleet_driver
+
+sheet= client.open_by_key(fleet_driver)
+ws= sheet.worksheet('Fleet_driver')
+data = ws.get_all_values()
+headers = data.pop(0)
+dfm = pd.DataFrame(data,columns=headers)
+dfs=dfm.loc[dfm['city_id'].isin(['1'])]
+fleet_driver_df=dfs.iloc[:,[2,3,5]]
+fleet_driver_df
+
+#allotment_status_report
+
+sheet= client.open_by_key(allotment_status_report)
+ws= sheet.worksheet('Allotment Status Report')
+data = ws.get_all_values()
+headers = data.pop(0)
+allotment_status_report_df = pd.DataFrame(data,columns=headers)
+allotment_status_report_df
+
+#uber_df
+
+uber_df = pd.read_excel(uber_ws,sheet_name=-1)#uber sheet
+uber_df
+
+#dps_dfs
+
+dps_df = pd.read_excel(dps_ws,sheet_name=0)#dps sheet
+dps_dfs=dps_df.loc[dps_df['DM name'].isin(['Silent Killers','Black Panthers','Roaring lions','Deep Hunters','Terrific Tigers'])]
+dps_dfs
+
+#commitment_mapping_calling_tab
+
+sheet= client.open_by_key(commitment_mapping_calling_tab)
+ws= sheet.worksheet('Calling')
+data = ws.get_all_values()
+headers = data.pop(0)
+commitment_mapping_calling_tab_df = pd.DataFrame(data,columns=headers)
+commitment_mapping_calling_tab_df
+
+#car_master
+
+sheet= client.open_by_key(car_master)
+ws= sheet.worksheet('Driver Hisaab Final')
+data = ws.get_all_values()
+headers = data.pop(0)
+car_master_df = pd.DataFrame(data,columns=headers)
+car_master_df
+
+# cs_aatm3=car_status_df.merge(aatmanirbhar_3_df, on='car_number',how='left')
+# cs_aatm3_df=cs_aatm3.iloc[:,[0,1,3,2]]
+
+# cs_aatm3_fleetd=car_status_df.merge(aatmanirbhar_3_df, on='car_number',how='left')
+# cs_aatm3_df=cs_aatm3.iloc[:,[0,1,3,2]]
+# cs_aatm3_df
