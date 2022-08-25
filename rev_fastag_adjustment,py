@@ -1,0 +1,146 @@
+# import os,sys;sys.path.append(os.path.dirname(os.path.realpath('mail')))
+# from mail.send_mail import sendMail
+import pygsheets #Importing python in google sheets
+import pandas as pd #importing pandas
+from pandas import DataFrame
+import datetime as dt
+from datetime import datetime, timedelta,date
+import numpy as np
+import datetime
+
+import warnings
+warnings.filterwarnings('ignore')
+
+# try:
+#     gc = pygsheets.authorize(service_file='/home/karan/config/car-master-sheet.json')
+# gc = pygsheets.authorize(service_file='car-master-sheet.json')
+# gc = pygsheets.authorize(service_file='/Users/karan_19981/Desktop/Work/Everest_Fleet/Database_Sheets/client_secret.json')
+
+
+# gc = pygsheets.authorize(service_file='/home/ubuntu/scripts/client_secret.json')
+
+gc = pygsheets.authorize(service_file='car-master-sheet.json')
+
+
+today = date.today() + timedelta(days = 1)
+
+allotment_wkbk = gc.open("Allotment Status Report")
+
+
+allotment_history_sheet = allotment_wkbk.worksheet_by_title("New Allotment History")
+
+allotment_history_data = pd.DataFrame(allotment_history_sheet.get_all_records())
+
+allotment_history_data = allotment_history_data[['Car + Count','Car Number','Allotment Date','ETM','Return Date','Allotment Fastag']]
+
+allotment_history_data['Return Date'] = allotment_history_data['Return Date'].replace(r'^\s*$', today, regex=True)
+
+allotment_history_data = allotment_history_data.replace(r'^\s*$', np.nan, regex=True)
+
+allotment_history_data = allotment_history_data[allotment_history_data['ETM'].str.contains('ET',na=False)]
+
+allotment_history_data['Allotment Date'] = pd.to_datetime(allotment_history_data['Allotment Date'], dayfirst = True)
+
+allotment_history_data['Return Date'] = pd.to_datetime(allotment_history_data['Return Date'], dayfirst = True)
+
+
+allotment_history_data['Allotment Date Dummy'] = allotment_history_data['Allotment Date'].dt.date
+
+allotment_history_data['Return Date Dummy'] = allotment_history_data['Return Date'].dt.date
+
+adjustment_given_allotment_history = allotment_history_data[['Car Number','Return Date Dummy','Return Date','ETM']]
+
+adjustment_taken_allotment_history = allotment_history_data[['Car Number','ETM','Allotment Date Dummy','Allotment Date','Allotment Fastag']]
+
+audit_data = allotment_wkbk.worksheet_by_title("Audit")
+
+allotment_audit_data = pd.DataFrame(audit_data.get_all_records())
+
+allotment_audit_data = allotment_audit_data[['Car Number','Fastag Balance','Timestamp']]
+
+allotment_audit_data = allotment_audit_data.replace(r'^\s*$', np.nan, regex=True)
+
+allotment_audit_data = allotment_audit_data[allotment_audit_data['Fastag Balance'].notna()]
+
+allotment_audit_data['Timestamp'] = pd.to_datetime(allotment_audit_data['Timestamp'], dayfirst = True)
+
+
+allotment_audit_data['start_date'] = pd.Timestamp('08-07-2022')#changes
+
+allotment_audit_data = allotment_audit_data.loc[(allotment_audit_data['Timestamp'] > allotment_audit_data['start_date'])]
+
+allotment_audit_data = allotment_audit_data.loc[~(allotment_audit_data['Fastag Balance'] == 0)]
+
+allotment_audit_data['Return Date'] = allotment_audit_data['Timestamp']
+
+allotment_audit_data.drop(['start_date'],axis = 1, inplace = True)#changes
+
+
+
+adjustment_given = pd.merge(allotment_audit_data,adjustment_given_allotment_history,on=['Return Date','Car Number'],how='inner')
+adjustment_given.rename(columns={"Return Date Dummy":"Bill Date"},inplace = True)
+
+# adjustment_given['start_date'] = pd.Timestamp('08-02-2022')
+adjustment_given['start_date'] = pd.Timestamp('08-07-2022')#changes
+adjustment_given = adjustment_given.loc[(adjustment_given['Timestamp'] > adjustment_given['start_date'])]
+adjustment_given.drop(['start_date'],axis = 1, inplace = True)
+adjustment_given['Adjustment Reason'] = 'Audit Fastag' 
+adjustment_given['Adjustment Comment'] = 'Audit Fastag' 
+adjustment_given['Adjustment Amount'] = adjustment_given['Fastag Balance']
+adjustment_given.drop(['Fastag Balance'],axis = 1, inplace = True)
+
+
+
+allotment_audit_data.drop(['Timestamp'],axis = 1, inplace = True)
+
+adjustment_taken = adjustment_taken_allotment_history.copy()
+adjustment_taken['Adjustment Amount New'] = adjustment_taken['Allotment Fastag'] * -1
+adjustment_taken['Adjustment Reason'] = 'Allotment Fastag' 
+adjustment_taken['Adjustment Comment'] = 'Allotment Fastag' 
+adjustment_taken['start_date'] = pd.Timestamp('08-07-2022')#changes
+adjustment_taken = adjustment_taken.loc[(adjustment_taken['Allotment Date'] > adjustment_taken['start_date'])]
+adjustment_taken.drop(['start_date'],axis = 1, inplace = True)
+
+
+
+adjustment_taken
+
+adjustment_taken.drop(['Allotment Fastag'],axis = 1, inplace = True)
+
+
+adjustment_taken.rename(columns={"Allotment Date Dummy":"Bill Date","Allotment Date":"Timestamp","Adjustment Amount New":"Adjustment Amount"},inplace = True)
+
+
+
+
+print(adjustment_given.head())
+print(adjustment_taken.head())
+
+
+adjustment_final = pd.concat([adjustment_taken, adjustment_given], ignore_index=True)
+
+
+adjustment_final['Name of DM'] = 'Allotment'
+adjustment_final['Pilot Name'] = ''
+
+adjustment_final.sort_values(by=['Timestamp'], ascending=True, inplace=True)
+
+adjustment_final
+
+
+# adjustment_gs = gc.open("New-Adjustment Sheet")
+
+# adjustment_sheet = adjustment_gs.worksheet_by_title("New Allotment Fastag")
+
+# adjustment_sheet.set_dataframe(adjustment_final, 'A1')
+
+
+# except Exception:
+#     sendMail([
+#     'abusalameverestfleet@gmail.com',
+#     'avinash.everestfleet@gmail.com',
+#     'rutvijaevrestfleet@gmail.com',
+#     'sameer.everestfleet@gmail.com',
+#     'Karan.saraogi@everestfleet.com',
+#     'vijugode@gmail.com'
+#     ])
