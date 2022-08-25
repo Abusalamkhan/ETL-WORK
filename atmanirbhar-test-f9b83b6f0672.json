@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "atmanirbhar-test",
+  "private_key_id": "f9b83b6f06727a741c6c918497c63c12a9858a60",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCoYaVfJShQWEep\nsQc/B+LHNJtG5wj6bjHIBk3nyfChJLhFLQjZDcaHdiEi/Q3lhXzhhivsQ9g8SKJr\nbKQ10WVzwFGW3BS9ztEzoTckun5Q6kY2TCWYzeyFLZWXrKUaV2HI9jPGHNVuMLTK\nnwqqu6uCob/10APMssnDxxKMEBdNZ5oeCWe2qPP4ooLvg019i36megJO/Yi+uYPQ\nDaNrCCxD3IRbxCZXXPeLNOq2SlSoBz1A74VYiYHW932lDKrPCKxDM4KbVy9phI7Y\nspffGc8MtB+RWVw/aCE/xfDSiCLjetytnF1tRH6j0DL7y8plTbVK4peZWatJxT3S\nkoiGvhJDAgMBAAECggEAA6ro0rs49xMNMI2KFl3iGyuyrCcxI19OF0jH3qIf6yql\nFuClvjCWH/I7Q4tWh6bSMwlcoI9TwPBmFUfvBbsTZiOMw2f0zbOZC/JZhKPJR5Lq\nx5j+AqeNnNMC3KRmjj3UA/AU7Z5IKdfGwFkZfuGKmVRTnZOT2ZwVV/3YkhNxpn5v\nqfKCJ3fFXD637KzAyLx34P30w1QQazoEHJ8duwHl3Az8hH5a82bXcw7XBBLAcHtj\nBIfQCyvlAVqWTVwSTokzbC8L5zo7/c++MzWvNTC0bzlYOmI2x8s9/Oxvan5Jk5nl\nOHn13cbDFHGX2yDlsUD+3m1LWKT3ewpY3z4QEu570QKBgQDRJ5UhSOqCvQ4gzswV\n4YQ/6DRq6UpGKkyZBzgF5B0ujyJAd56mHgEYs4YytDHY+M1oEC5Zfc9ETHUw0hSj\nMwaWShSIFGK34A2MKsdpiIpN7L4RP2hK04+A9Mxsao+98FGCzDWbWgOVTh3Ti3rY\netruuD2lba/qVCrMm9i2zAG7swKBgQDOGDpU9YN42gHtIZSc73aXV3P+SMTKX5+E\nt++lN1wsyl1yhZICGxasjqQ25yXAatdJ3MRL3lNFTCx15rfjRl/inU6qfq5O0d+9\nYATAP8z+ZxtduW2WIJx/n9BMjmasKmbOHLqJGBKUSxXCkio9qFRyNbhD3lBVRIqW\nOvOwA/vHMQKBgQCQ24dP7D5vmhzE4DU9GloMIPjc6wKEIhu3CObmPZ1wd7XTTIXW\nq4U65GuXhnHXwkoRPtO7K4V32jR4QagFd/uh72DU9rmAfG8lmyNNlkGjwsnJDE9h\nM7F6MRG8LPmtJVpu6pxeIjPFHrtNnpbQhBZJq9UWVCe4dd7Go1GvGRBCPQKBgHBd\n3U/9HFWD55D2wiRem3YghGmcG0+Lm1mtP8gAywzQuOp70QO86Tvj+bzFglvK5N6s\ns4n6CcS6p3MQ/Cm6cQUJZ56luzvWSfriozR+lLIQXWdYdltoJGuhItzatzgfVjYC\ni+G7ckXQOmj/cHB1mrU6fODkEUCsQjNuqPbK9TfBAoGAFKfGCdRyLvIXJxZBaFCs\n/ieBvqWv04LLOjCCVz6ycdNUrTyoWapnY8SF9A45kdiGsYUo3wDT0NR8A6xNnoIO\nsXWUr7oAdxPCPfcF00MytKK0lWyPWIFPWvHLIcMGUJlR2S8kfO4n5xxsTJaZhkIp\nJpRgC9eRUJgFQvqhtnuhD8U=\n-----END PRIVATE KEY-----\n",
+  "client_email": "everestfleetserviceaccount@atmanirbhar-test.iam.gserviceaccount.com",
+  "client_id": "115580167264641070711",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/everestfleetserviceaccount%40atmanirbhar-test.iam.gserviceaccount.com"
+}
